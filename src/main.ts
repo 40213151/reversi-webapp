@@ -130,11 +130,12 @@ app.post("/api/games/latest/turns", async (req, res) => {
   const disc = parseInt(req.body.move.disc);
   const x = parseInt(req.body.move.x);
   const y = parseInt(req.body.move.y);
-  console.log(`turnCount=${turnCount}, disc=${disc}, x=${x}, y=${y}`);
 
-  // 1つ前のターンを取得する
   const conn = await connectMySQL();
   try {
+    await conn.beginTransaction();
+
+    // 1つ前のターンを取得する
     const gameSelectResult = await conn.execute<mysql.RowDataPacket[]>(
       "select id, started_at from games order by id desc limit 1"
     );
@@ -157,12 +158,12 @@ app.post("/api/games/latest/turns", async (req, res) => {
       board[s.y][s.x] = s.disc;
     });
 
-    // 盤面におけるかチェックする
+    // TODO 盤面に置けるかチェック
 
     // 石を置く
     board[y][x] = disc;
 
-    // ひっくり返す
+    // TODO ひっくり返す
 
     // ターンを保存する
     const nextDisc = disc === DARK ? LIGHT : DARK;
@@ -205,7 +206,7 @@ app.post("/api/games/latest/turns", async (req, res) => {
     await conn.end();
   }
 
-  res.status(201).end;
+  res.status(201).end();
 });
 
 app.use(errorHandler);

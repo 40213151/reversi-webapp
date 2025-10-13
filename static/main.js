@@ -4,32 +4,34 @@ const LIGHT = 2;
 
 const boardElement = document.getElementById("board");
 
-async function showBoard() {
-  const turnCount = 0;
+async function showBoard(turnCount) {
   const response = await fetch(`/api/games/latest/turns/${turnCount}`);
   const responseBody = await response.json();
   const board = responseBody.board;
   const nextDisc = responseBody.nextDisc;
 
-  // ボードの子要素を全て削除
   while (boardElement.firstChild) {
     boardElement.removeChild(boardElement.firstChild);
   }
 
   board.forEach((line, y) => {
     line.forEach((square, x) => {
+      // <div class="square">
       const squareElement = document.createElement("div");
       squareElement.className = "square";
 
       if (square !== EMPTY) {
+        // <div class="stone dark">
         const stoneElement = document.createElement("div");
         const color = square === DARK ? "dark" : "light";
         stoneElement.className = `stone ${color}`;
+
         squareElement.appendChild(stoneElement);
       } else {
         squareElement.addEventListener("click", async () => {
           const nextTurnCount = turnCount + 1;
           await registerTurn(nextTurnCount, nextDisc, x, y);
+          await showBoard(nextTurnCount);
         });
       }
 
@@ -65,7 +67,7 @@ async function registerTurn(turnCount, disc, x, y) {
 
 async function main() {
   await registerGame();
-  await showBoard();
+  await showBoard(0);
 }
 
 main();
