@@ -27,9 +27,9 @@ async function showBoard() {
         stoneElement.className = `stone ${color}`;
         squareElement.appendChild(stoneElement);
       } else {
-        squareElement.addEventListener("click", async() => {
-          const nextTurnCount = turnCount + 1
-          await regusterTurn(nextTurnCount, nextDisk, x, y)
+        squareElement.addEventListener("click", async () => {
+          const nextTurnCount = turnCount + 1;
+          await registerTurn(nextTurnCount, nextDisc, x, y);
         });
       }
 
@@ -54,7 +54,7 @@ async function registerTurn(turnCount, disc, x, y) {
     },
   };
 
-  await fetch("/api/games/lates/turns", {
+  await fetch("/api/games/latest/turns", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
