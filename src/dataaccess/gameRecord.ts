@@ -4,4 +4,8 @@ export class GameRecord {
   get id(): number {
     return this._id;
   }
+
+  get startedAt(): Date {
+    return this._startedAt;
+  }
 }

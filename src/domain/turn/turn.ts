@@ -1,6 +1,6 @@
 import { Disc } from "./disc";
 import { Move } from "./move";
-import { Board } from "./board";
+import { Board, initialBoard } from "./board";
 import { Point } from "./point";
 
 export class Turn {
@@ -58,4 +58,8 @@ export class Turn {
   get move() {
     return this._move;
   }
+}
+
+export function firstTurn(gameId: number, endAt: Date): Turn {
+  return new Turn(gameId, 0, Disc.DARK, undefined, initialBoard, endAt);
 }

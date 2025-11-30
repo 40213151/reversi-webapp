@@ -1,5 +1,5 @@
-import { Disc } from "./disc";
-import { Move } from "./move";
+import { Disc } from "../turn/disc";
+import { Move } from "../turn/move";
 
 export class Board {
   constructor(private _discs: Disc[][]) {}
@@ -25,3 +25,20 @@ export class Board {
     return this._discs;
   }
 }
+
+const E = Disc.EMPTY;
+const D = Disc.DARK;
+const L = Disc.LIGHT;
+
+const INITIAL_DISCS = [
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, D, L, E, E, E],
+  [E, E, E, L, D, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+  [E, E, E, E, E, E, E, E],
+];
+
+export const initialBoard = new Board(INITIAL_DISCS);
